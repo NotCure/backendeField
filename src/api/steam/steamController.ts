@@ -33,7 +33,7 @@ class SteamAuthController {
       }
 
       res.redirect(
-        `https://${env.CORS_ORIGIN}/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
+        `${env.CORS_ORIGIN}/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
       );
     } else {
       res.redirect("/login-failed");
