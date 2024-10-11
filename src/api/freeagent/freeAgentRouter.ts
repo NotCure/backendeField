@@ -11,8 +11,7 @@ freeAgentRouter.get("/steam/:steamId", freeAgentController.getFreeAgentBySteamId
 // New verification route for Discord ID
 freeAgentRouter.get('/verify/:discordId', async (req: Request, res: Response) => {
     const { discordId } = req.params;
-    const redirectUri = `http://localhost:3000/verify/${discordId}`; // Or replace with your frontend URL
-    // Redirect to the Steam login/verification page
+    const redirectUri = `https://efa-2mqj.vercel.app:3000/verify/${discordId}`; 
     res.redirect(redirectUri);
 });
 
