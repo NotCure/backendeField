@@ -8,8 +8,8 @@ const steamRouter: Router = express.Router();
 // Middleware for Steam
 steamRouter.use(
   steam.middleware({
-    realm: "https://${env.HOST}/", // Your backend URL
-    verify: `https://${env.HOST}/steam/auth/steam/return`, // The callback route after Steam login
+    realm: "https://backendefield.onrender.com/", // Your backend URL
+    verify: `https://backendefield.onrender.com/steam/auth/steam/return`, // The callback route after Steam login
     apiKey: process.env.STEAM_API_KEY!, // Your Steam API key
   })
 );
