@@ -33,7 +33,7 @@ class SteamAuthController {
       }
 
       res.redirect(
-        `https://efa-2mqj.vercel.app/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
+        `${env.FRONTEND}/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
       );
     } else {
       res.redirect("/login-failed");
