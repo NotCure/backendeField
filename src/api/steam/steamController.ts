@@ -44,8 +44,8 @@ class SteamAuthController {
     const { discordId } = req.params;
     req.session.discordId = discordId; 
     console.log(`2 - Discord ID stored in session: ${discordId}`);
-    console.log(`Session content: ${JSON.stringify(req.session)}`); // Log session contents
-    const redirectUri = `https://${env.HOST}/steam/auth/steam`; // Correct URL
+    console.log(`Session content: ${JSON.stringify(req.session)}`); 
+    const redirectUri = `https://backendefield.onrender.com/steam/auth/steam`; 
     res.redirect(redirectUri);
   };
   public logout = (req: SteamRequest, res: Response) => {
