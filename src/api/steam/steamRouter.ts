@@ -1,14 +1,15 @@
 import express, { Router } from "express";
 import steamAuthController from "@/api/steam/steamController"; // Adjust path accordingly
 import steam from "steam-login";
+import { env } from "@/common/utils/envConfig";
 
 const steamRouter: Router = express.Router();
 
 // Middleware for Steam
 steamRouter.use(
   steam.middleware({
-    realm: "http://localhost:8080/", // Your backend URL
-    verify: "http://localhost:8080/steam/auth/steam/return", // The callback route after Steam login
+    realm: "https://${env.HOST}/", // Your backend URL
+    verify: `https://${env.HOST}/steam/auth/steam/return`, // The callback route after Steam login
     apiKey: process.env.STEAM_API_KEY!, // Your Steam API key
   })
 );

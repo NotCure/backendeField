@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { env } from "@/common/utils/envConfig";
 
 interface SteamRequest extends Request {
   user?: {
@@ -31,9 +32,8 @@ class SteamAuthController {
         return res.status(400).send("Discord ID is missing.");
       }
 
-      // Redirect the user to your frontend for linking confirmation with the Discord ID
       res.redirect(
-        `http://localhost:3000/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
+        `https://${env.HOST}/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
       );
     } else {
       res.redirect("/login-failed");
@@ -45,7 +45,7 @@ class SteamAuthController {
     req.session.discordId = discordId; 
     console.log(`2 - Discord ID stored in session: ${discordId}`);
     console.log(`Session content: ${JSON.stringify(req.session)}`); // Log session contents
-    const redirectUri = `http://localhost:8080/steam/auth/steam`; // Correct URL
+    const redirectUri = `https://${env.HOST}/steam/auth/steam`; // Correct URL
     res.redirect(redirectUri);
   };
   public logout = (req: SteamRequest, res: Response) => {
