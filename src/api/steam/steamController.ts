@@ -33,7 +33,7 @@ class SteamAuthController {
       }
 
       res.redirect(
-        `https://${env.HOST}/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
+        `https://${env.CORS_ORIGIN}/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
       );
     } else {
       res.redirect("/login-failed");
@@ -49,7 +49,7 @@ class SteamAuthController {
     res.redirect(redirectUri);
   };
   public logout = (req: SteamRequest, res: Response) => {
-    req.logout?.(); // Optional chaining to ensure logout is a function
+    req.logout?.(); 
     res.redirect("/");
   };
 }
