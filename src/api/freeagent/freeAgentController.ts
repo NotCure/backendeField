@@ -3,6 +3,7 @@ import { freeAgentService } from "@/api/freeagent/freeAgentService";
 import { handleServiceResponse } from "@/common/utils/httpHandlers";
 import { StatusCodes } from "http-status-codes";
 import axios from "axios";
+import { env } from "@/common/utils/envConfig";
 
 class FreeAgentController {
 
@@ -58,7 +59,7 @@ class FreeAgentController {
 
     if (serviceResponse.success) {
       try {
-        await axios.post('http://localhost:3001/assign-role', {
+        await axios.post(`${env.BOT}/assign-role`, {
           discordId,
           roleName: 'Free Agent',
         });
