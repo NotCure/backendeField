@@ -59,7 +59,7 @@ class FreeAgentController {
 
     if (serviceResponse.success) {
       try {
-        await axios.post(`${env.BOT}/assign-role`, {
+        await axios.post(`https://efield.onrender.com/assign-role`, {
           discordId,
           roleName: 'Free Agent',
         });
