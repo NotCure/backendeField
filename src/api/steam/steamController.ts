@@ -20,37 +20,31 @@ class SteamAuthController {
     res.send("Redirecting to Steam login...");
   };
 
-  // Callback route after successful Steam authentication
   public steamCallback = (req: SteamRequest, res: Response) => {
-    if (req.user) {
+    if (req.user && req.session.discordId) { // Ensure Steam and Discord IDs are both in session
       const steamId = req.user.steamid;
       const steamName = req.user.username;
-      const discordId = req.session.discordId; // Get Discord ID from session
-      console.log(`1 - Discord ID stored in session: ${discordId}`);
-
-      if (!discordId) {
-        return res.status(400).send("Discord ID is missing.");
-      }
+      const discordId = req.session.discordId;
 
       res.redirect(
         `${env.FRONTEND}/verify/complete?steamId=${steamId}&steamName=${steamName}&discordId=${discordId}`
       );
     } else {
-      res.redirect("/login-failed");
+      res.status(400).send("Authentication failed. Please try again.");
     }
   };
 
   public verify = (req: Request, res: Response) => {
     const { discordId } = req.params;
     req.session.discordId = discordId; 
-    console.log(`2 - Discord ID stored in session: ${discordId}`);
-    console.log(`Session content: ${JSON.stringify(req.session)}`); 
     const redirectUri = `https://${env.HOST}/steam/auth/steam`; 
     res.redirect(redirectUri);
   };
   public logout = (req: SteamRequest, res: Response) => {
     req.logout?.(); 
-    res.redirect("/");
+    req.session.destroy(() => { 
+      res.redirect("/");
+    });
   };
 }
 
