@@ -16,6 +16,14 @@ class FreeAgentController {
   public createFreeAgent: RequestHandler = async (req: Request, res: Response) => {
     const { discordId, steamName, steamProfileLink, steamId } = req.body;
 
+    const sessionDiscordId = req.session.discordId;
+    if (!sessionDiscordId) {
+      return res.status(401).json({ message: "Unauthorized: No Discord session found." });
+    }
+    if (req.body.discordId !== sessionDiscordId) {
+      return res.status(403).json({ message: "Forbidden: Discord ID mismatch." });
+    }
+    
     if (isNaN(Number(discordId))) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
