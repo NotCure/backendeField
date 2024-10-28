@@ -6,7 +6,8 @@ import axios from "axios";
 import { env } from "@/common/utils/envConfig";
 
 const LOG_TYPES = {
-  ALTS_DETECTION: 1,
+  ALTS_DETECTION: 1,          
+  DISCORD_LINKS_NEW_STEAM: 3,   
   VERIFICATION_SUCCESS: 2,
 };
 
@@ -47,9 +48,9 @@ class FreeAgentController {
         existingByDiscordId.responseObject.steamId, 
         existingByDiscordId.responseObject.steamName,
         existingByDiscordId.responseObject.discordId,
-        LOG_TYPES.ALTS_DETECTION
+        LOG_TYPES.DISCORD_LINKS_NEW_STEAM  // New log type here
       );
-
+    
       return res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
         message: `This Discord account (${discordUsername}) is already linked to Steam ID: ${existingByDiscordId.responseObject.steamName} | ${existingByDiscordId.responseObject.steamId}. You can't verify.`,
@@ -62,7 +63,7 @@ class FreeAgentController {
     if (existingBySteamId.success) {
       const existingDiscordId = existingBySteamId.responseObject.discordId;
       const existingDiscordUsername = (await axios.get(`https://discordlookup.mesalytic.moe/v1/user/${existingDiscordId}`)).data.username;
-
+    
       await this.sendToBotLog(
         discordId,
         steamId,
@@ -71,9 +72,9 @@ class FreeAgentController {
         existingBySteamId.responseObject.steamId, 
         existingBySteamId.responseObject.steamName,
         existingDiscordUsername,
-        LOG_TYPES.ALTS_DETECTION
+        LOG_TYPES.ALTS_DETECTION  // Keep original log type here
       );
-
+    
       return res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
         message: `This Steam account (${existingBySteamId.responseObject.steamName}) is already linked to Discord User: ${existingDiscordUsername} | ${existingBySteamId.responseObject.discordId}. You can't verify.`,
@@ -83,12 +84,11 @@ class FreeAgentController {
     }
 
     const serviceResponse = await freeAgentService.createFreeAgent(discordId, steamName, steamProfileLink, steamId);
-
     if (serviceResponse.success) {
       try {
         await axios.post(`https://efield.onrender.com/assign-role`, {
           discordId,
-          roleId: '1297239782853836972',
+          roleId: '1293686604916850819',
         });
 
         await this.sendToBotLog(
