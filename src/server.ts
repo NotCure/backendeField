@@ -34,11 +34,15 @@ app.use(helmet());
 app.use(rateLimiter);
 
 app.use(
-  session({
+   session({
     secret: 'heheh',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
+    saveUninitialized: false, 
+    cookie: {
+      secure: true, 
+      httpOnly: true,
+      sameSite: 'lax', 
+    },
   })
 );
 // Request logging
