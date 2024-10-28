@@ -15,6 +15,7 @@ class FreeAgentController {
 
   public createFreeAgent: RequestHandler = async (req: Request, res: Response) => {
     const { discordId, steamName, steamProfileLink, steamId } = req.body;
+    console.log("Session in createFreeAgent route:", req.session);
 
     const sessionDiscordId = req.session.discordId;
     if (!sessionDiscordId) {
