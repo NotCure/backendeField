@@ -21,6 +21,8 @@ class SteamAuthController {
   };
 
   public steamCallback = (req: SteamRequest, res: Response) => {
+      console.log("Session in steamCallback route:", req.session); // Log session here
+
     if (req.user && req.session.discordId) { // Ensure Steam and Discord IDs are both in session
       const steamId = req.user.steamid;
       const steamName = req.user.username;
