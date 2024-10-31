@@ -14,10 +14,10 @@ const LOG_TYPES = {
 class FreeAgentController {
 
   public createFreeAgent: RequestHandler = async (req: Request, res: Response) => {
-    const { discordId, steamName, steamProfileLink, steamId } = req.body;
+     const { steamName, steamProfileLink, steamId } = req.body;
     console.log("Session in createFreeAgent route:", req.session);
 
-    const sessionDiscordId = req.session.discordId;
+    const discordId = req.session.discordId;
     if (!sessionDiscordId) {
       return res.status(401).json({ message: "Unauthorized: No Discord session found." });
     }
