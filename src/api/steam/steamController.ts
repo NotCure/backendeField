@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { env } from "@/common/utils/envConfig";
+const TokenModel = require("../../database/TokenModel");
 
 interface SteamRequest extends Request {
   user?: {
@@ -36,11 +37,26 @@ class SteamAuthController {
     }
   };
 
-  public verify = (req: Request, res: Response) => {
-    const { discordId } = req.params;
-    req.session.discordId = discordId; 
-    const redirectUri = `https://${env.HOST}/steam/auth/steam`; 
-    res.redirect(redirectUri);
+  public verify = async (req: Request, res: Response) => {
+    const { token } = req.params;
+
+    try {
+      const tokenData = await TokenModel.findOne({ token });
+      if (!tokenData) {
+        return res.status(401).send("Invalid or expired token.");
+      }
+  
+      // Set discordId in session and delete token to prevent reuse
+      req.session.discordId = tokenData.discordId;
+      await TokenModel.deleteOne({ token });
+  
+      const redirectUri = `https://${env.HOST}/steam/auth/steam`;
+      res.redirect(redirectUri);
+    } catch (error) {
+      console.error("Error verifying token:", error);
+      res.status(500).send("Internal server error.");
+    }
+
   };
   public logout = (req: SteamRequest, res: Response) => {
     req.logout?.(); 

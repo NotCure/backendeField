@@ -21,7 +21,8 @@ steamRouter.get("/auth/steam", steam.authenticate(), steamAuthController.login);
 steamRouter.get("/auth/steam/return", steam.verify(), steamAuthController.steamCallback);
 
 // Route for initial verification with Discord ID
-steamRouter.get("/verify/:discordId", steamAuthController.verify);
+steamRouter.get("/verify/:token", steamAuthController.verify);
+
 
 // Steam logout route
 steamRouter.get("/auth/logout", steam.enforceLogin("/"), steamAuthController.logout);
