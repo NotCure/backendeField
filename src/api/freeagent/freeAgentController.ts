@@ -21,9 +21,7 @@ class FreeAgentController {
     if (!sessionDiscordId) {
       return res.status(401).json({ message: "Unauthorized: No Discord session found." });
     }
-    if (req.body.discordId !== sessionDiscordId) {
-      return res.status(403).json({ message: "Forbidden: Discord ID mismatch." });
-    }
+
     
     if (isNaN(Number(discordId))) {
       return res.status(StatusCodes.BAD_REQUEST).json({
