@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { env } from "@/common/utils/envConfig";
-const TokenModel = require("../../database/TokenModel");
+import TokenModel from "../../database/TokenModel";
 
 interface SteamRequest extends Request {
   user?: {
