@@ -18,7 +18,7 @@ class FreeAgentController {
     console.log("Session in createFreeAgent route:", req.session);
 
     const discordId = req.session.discordId;
-    if (!sessionDiscordId) {
+    if (!discordId ) {
       return res.status(401).json({ message: "Unauthorized: No Discord session found." });
     }
 
