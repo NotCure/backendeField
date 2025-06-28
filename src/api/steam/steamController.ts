@@ -22,9 +22,9 @@ class SteamAuthController {
   };
 
   public steamCallback = (req: SteamRequest, res: Response) => {
-      console.log("Session in steamCallback route:", req.session); // Log session here
+      console.log("Session in steamCallback route:", req.session);
 
-    if (req.user && req.session.discordId) { // Ensure Steam and Discord IDs are both in session
+    if (req.user && req.session.discordId) { 
       const steamId = req.user.steamid;
       const steamName = req.user.username;
       const discordId = req.session.discordId;
@@ -47,14 +47,13 @@ public verify = async (req: Request, res: Response) => {
       return res.status(401).send("Invalid or expired token.");
     }
 
-    // Set discordId in session and delete token to prevent reuse
     req.session.discordId = tokenData.discordId;
     await TokenModel.deleteOne({ token });
 
     const redirectUri = `https://${env.HOST}/steam/auth/steam`;
     res.redirect(redirectUri);
   } catch (error) {
-    console.error("Error verifying token:", error); // Detailed logging
+    console.error("Error verifying token:", error); 
     res.status(500).send("Internal server error.");
   }
 };
